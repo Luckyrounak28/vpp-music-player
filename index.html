@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPP Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1e272e;
+            color: #f5f6fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #485460;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #f39c12;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .header nav ul li {
+            margin-left: 20px;
+        }
+
+        .header nav ul li a {
+            text-decoration: none;
+            color: #ecf0f1;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .header nav ul li a:hover {
+            background-color: #f39c12;
+            color: #2d3436;
+        }
+
+        main {
+            margin: 30px 0;
+        }
+
+        .music-list h2 {
+            margin-bottom: 10px;
+            font-size: 2em;
+            color: #f39c12;
+        }
+
+        .music-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .music-list ul li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #57606f;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .music-list ul li:hover {
+            background-color: #747d8c;
+        }
+
+        .music-player {
+            background-color: #2d3436;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .cover-art {
+            width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            font-size: 2.5em;
+            color: #f39c12;
+            margin: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .controls button:hover {
+            color: #f1c40f;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #7f8c8d;
+            border-radius: 12px;
+            margin: 15px 0;
+            height: 10px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #f39c12;
+            width: 0;
+            border-radius: 12px;
+        }
+
+        .time {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #f1f2f6;
+        }
+
+        .volume-control {
+            margin: 20px 0;
+            color: #f1f2f6;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+
+        footer p {
+            font-size: 1em;
+        }
+        .controls button {
+            background: none;
+            border: none;
+            font-size: 2.5em;
+            color: #f39c12;
+            margin: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .controls button:hover {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>VPP Music Player</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li><a href="#">Playlists</a></li>
+                    <li><a href="#">Search</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="music-list">
+                <h2>Top Tracks</h2>
+                <ul id="song-list">
+                    <!-- Songs will be populated here -->
+                </ul>
+            </div>
+            <div class="music-player">
+                <img class="cover-art" id="cover-art" src="assets/cover1.jpg" alt="Cover Art">
+                <h3 id="song-title">Song Title</h3>
+                <p id="artist-name">Artist Name</p>
+                <audio id="audio" src="" preload="auto"></audio>
+                <div class="controls">
+                    <button id="prev">⏮️</button>
+                    <button id="play">▶️</button>
+                    <button id="next">⏭️</button>
+                    <button id="repeat">🔁</button>
+                    <button id="shuffle">🔀</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="time">
+                    <span id="current-time">00:00</span> / <span id="total-duration">00:00</span>
+                </div>
+                
+                <div class="volume-control">
+                    <label for="volume">Volume: </label>
+                    <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 VPP Music Player</p>
+            <p>Created and Designed by Vishal Kumar</p>
+        </footer>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playButton = document.getElementById('play');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const repeatButton = document.getElementById('repeat');
+        const shuffleButton = document.getElementById('shuffle');
+        const songTitle = document.getElementById('song-title');
+        const artistName = document.getElementById('artist-name');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.querySelector('.progress-container');  
+        const coverArt = document.getElementById('cover-art');
+        const volumeControl = document.getElementById('volume');
+        const currentTimeElement = document.getElementById('current-time');
+        const totalDurationElement = document.getElementById('total-duration');
+
+        let isPlaying = false;
+        let isRepeating = false;
+        let isShuffling = false;
+
+        const songs = [
+            {
+                title: 'Dekha Hazaro Dafa',
+                artist: 'Arijit Singh',
+                src: 'assets/Dekha Hazaro Dafaa - Rustom (Arijit Singh) 190Kbps.mp3',
+                cover: 'assets/dekha.jpg'
+            },
+            {
+                title: 'Ek Charaiya',
+                artist: 'Arijit Singh',
+                src: 'assets/Ek Charraiya.mp3',
+                cover: 'assets/ekchiraiya.jpg'
+            },
+            {
+                title: 'Hai Dil yeh mera',
+                artist: 'Arijit Singh',
+                src: 'assets/Hai Dil Ye Mera.mp3',
+                cover: 'assets/hdil.jpg'
+            },
+            {
+                title: 'Kal Ho Na Ho',
+                artist: 'Sonu Nigam',
+                src: 'assets/Kal ho na ho.mp3',
+                cover: 'assets/kal.jpg'
+            },
+            {
+                title: 'Kabhi Alvida Na Kehna',
+                artist: 'Sonu Nigam',
+                src: 'assets/kabhi alvida na kehna.mp3',
+                cover: 'assets/alvida.jpg'
+            }
+        ];
+
+        let currentSongIndex = 0;
+
+        function loadSong(song) {
+            audio.src = song.src;
+            songTitle.textContent = song.title;
+            artistName.textContent = song.artist;
+            coverArt.src = song.cover;
+            audio.volume = volumeControl.value;
+        }
+
+        function playSong() {
+            audio.play();
+            isPlaying = true;
+            playButton.textContent = '⏸️';
+        }
+
+        function pauseSong() {
+            audio.pause();
+            isPlaying = false;
+            playButton.textContent = '▶️';
+        }
+
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(songs[currentSongIndex]);
+            playSong();
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (isShuffling) {
+                playRandomSong();
+            } else {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+            }
+            loadSong(songs[currentSongIndex]);
+            playSong();
+        });
+
+        repeatButton.addEventListener('click', () => {
+            isRepeating = !isRepeating;
+            repeatButton.style.color = isRepeating ? '#f1c40f' : '#f39c12';  // Change color to indicate repeat is on
+        });
+
+        shuffleButton.addEventListener('click', () => {
+            isShuffling = !isShuffling;
+            shuffleButton.style.color = isShuffling ? '#f1c40f' : '#f39c12';  // Change color to indicate shuffle is on
+        });
+
+        audio.addEventListener('ended', () => {
+            if (isRepeating) {
+                playSong();  // Repeat the current song
+            } else if (isShuffling) {
+                playRandomSong();
+            } else {
+                nextButton.click();  // Play the next song
+            }
+        });
+
+        function playRandomSong() {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * songs.length);
+            } while (randomIndex === currentSongIndex);  // Ensure a new random song is picked
+            currentSongIndex = randomIndex;
+            loadSong(songs[currentSongIndex]);
+            playSong();
+        }
+
+        audio.addEventListener('timeupdate', updateProgress);
+
+        function updateProgress() {
+            const currentTime = audio.currentTime;
+            const duration = audio.duration;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            const currentMinutes = Math.floor(currentTime / 60);
+            const currentSeconds = Math.floor(currentTime % 60).toString().padStart(2, '0');
+            currentTimeElement.textContent = `${currentMinutes}:${currentSeconds}`;
+
+            const totalMinutes = Math.floor(duration / 60);
+            const totalSeconds = Math.floor(duration % 60).toString().padStart(2, '0');
+            if (duration) {
+                totalDurationElement.textContent = `${totalMinutes}:${totalSeconds}`;
+            }
+        }
+
+        progressContainer.addEventListener('click', setProgress);
+
+        function setProgress(e) {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        }
+
+        volumeControl.addEventListener('input', () => {
+            audio.volume = volumeControl.value;
+        });
+
+        // Load the first song initially
+        loadSong(songs[currentSongIndex]);
+    </script>
+</body>
+</html>
